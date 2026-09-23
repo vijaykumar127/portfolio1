@@ -1,0 +1,1199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title> GCT Institute — Department of Food Technology</title>
+<meta name="description" content="Department of Food Technology — B.Tech, M.Tech and PhD programs, smart food labs, research in food safety, nutraceuticals and sustainable packaging." />
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🥑</text></svg>" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Sora:wght@600;700;800&display=swap" rel="stylesheet" />
+
+<!-- Three.js r128 (CDN) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+<style>
+/* ==========================================================
+   GCT INSTITUTE — Department of Food Technology
+   Single-file website · vanilla CSS · Three.js 3D hero
+   ========================================================== */
+:root{
+  --bg:#07110c;
+  --bg2:#0a1811;
+  --panel:#0f2016;
+  --panel2:#12291c;
+  --line:rgba(255,255,255,.09);
+  --text:#eef7f0;
+  --muted:#93a89b;
+  --green:#22c55e;
+  --green-d:#15803d;
+  --lime:#a3e635;
+  --orange:#fb923c;
+  --red:#f87171;
+  --blue:#60a5fa;
+  --violet:#a78bfa;
+  --yellow:#facc15;
+  --radius:18px;
+  --font-d:'Sora',sans-serif;
+  --font-b:'Inter',system-ui,sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:var(--font-b);background:var(--bg);color:var(--text);line-height:1.65;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+ul{list-style:none}
+button{font-family:var(--font-b)}
+img{max-width:100%;display:block}
+.container{width:min(1180px,92%);margin-inline:auto}
+.section{padding:96px 0}
+.section--tint{background:var(--bg2)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center}
+
+.kicker{color:var(--lime);font-weight:700;letter-spacing:3px;font-size:12.5px;margin-bottom:10px}
+.h2{font-family:var(--font-d);font-size:clamp(30px,4.6vw,52px);line-height:1.08;letter-spacing:-.5px;margin-bottom:16px}
+.h2 .ac{color:var(--green)}
+.desc{color:var(--muted);max-width:460px}
+.sec-head{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;margin-bottom:48px;flex-wrap:wrap}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:13px 28px;border-radius:999px;
+  font-weight:700;font-size:14px;border:2px solid transparent;cursor:pointer;transition:.25s;
+  background:linear-gradient(135deg,var(--green),var(--green-d));color:#04150b;box-shadow:0 10px 26px rgba(34,197,94,.32)}
+.btn:hover{transform:translateY(-3px);box-shadow:0 16px 36px rgba(34,197,94,.42)}
+.btn--ghost{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.3);color:#fff;box-shadow:none}
+.btn--ghost:hover{border-color:#fff;background:rgba(255,255,255,.12)}
+.btn--outline{background:transparent;border-color:var(--green);color:var(--green);box-shadow:none}
+.btn--outline:hover{background:var(--green);color:#04150b}
+.btn--lg{padding:16px 36px;font-size:15px}
+.btn--block{width:100%}
+
+/* loader */
+.loader{position:fixed;inset:0;z-index:3000;background:var(--bg);display:grid;place-items:center;transition:.5s}
+.loader.done{opacity:0;visibility:hidden}
+.loader .bar{width:220px;height:5px;border-radius:5px;background:var(--panel);overflow:hidden}
+.loader .bar span{display:block;height:100%;width:40%;border-radius:5px;
+  background:linear-gradient(90deg,var(--green),var(--lime));animation:ldslide 1.1s ease-in-out infinite}
+@keyframes ldslide{0%{transform:translateX(-110%)}100%{transform:translateX(360%)}}
+.loader p{margin-top:14px;font-size:12px;letter-spacing:4px;color:var(--muted);text-align:center}
+
+/* nav */
+.nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:16px 0;transition:.3s}
+.nav.scrolled{background:rgba(7,17,12,.92);backdrop-filter:blur(14px);padding:9px 0;box-shadow:0 8px 30px rgba(0,0,0,.45);border-bottom:1px solid var(--line)}
+.navwrap{display:flex;align-items:center;justify-content:space-between}
+.logo{display:flex;align-items:center;gap:11px}
+.logo__mark{width:44px;height:44px;border-radius:13px;display:grid;place-items:center;font-size:22px;
+  background:linear-gradient(135deg,var(--green),var(--green-d));box-shadow:0 8px 20px rgba(34,197,94,.4)}
+.logo__txt{font-family:var(--font-d);font-weight:800;font-size:19px;letter-spacing:.4px}
+.logo__txt em{color:var(--lime);font-style:normal}
+.menu{display:flex;align-items:center;gap:24px}
+.menu ul{display:flex;gap:22px}
+.mlink{font-size:14px;font-weight:600;color:var(--muted);position:relative;transition:.2s}
+.mlink:hover{color:#fff}
+.mlink.active{color:#fff}
+.mlink.active::after{content:'';position:absolute;left:0;bottom:-6px;width:100%;height:2px;background:var(--green);border-radius:2px}
+.navcta{padding:10px 22px;font-size:13px}
+.burger{display:none;flex-direction:column;gap:5px;background:none;border:0;cursor:pointer;padding:6px}
+.burger span{width:24px;height:2px;background:#fff;border-radius:2px;transition:.3s}
+.burger.active span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.burger.active span:nth-child(2){opacity:0}
+.burger.active span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+
+/* HERO + 3D */
+.hero{position:relative;min-height:100vh;display:flex;align-items:center;overflow:hidden;
+  background:radial-gradient(58% 46% at 72% 38%,rgba(34,197,94,.16),transparent 70%),
+             radial-gradient(46% 40% at 16% 72%,rgba(163,230,53,.08),transparent 70%),var(--bg)}
+#hero3d{position:absolute;inset:0;width:100%;height:100%;display:block}
+.hero__vg{position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(90deg,rgba(7,17,12,.9) 0%,rgba(7,17,12,.55) 36%,rgba(7,17,12,.02) 64%,rgba(7,17,12,.4) 100%)}
+.hero__in{position:relative;z-index:2;display:flex;align-items:center;min-height:100vh;width:min(1180px,92%);margin-inline:auto;pointer-events:none}
+.hero__copy{max-width:580px;pointer-events:auto}
+.hero__copy>*+*{margin-top:22px}
+.chip{display:inline-flex;align-items:center;gap:8px;padding:7px 16px;border-radius:999px;font-size:12.5px;font-weight:700;
+  letter-spacing:1.5px;color:var(--lime);background:rgba(163,230,53,.1);border:1px solid rgba(163,230,53,.3)}
+.hero__t{font-family:var(--font-d);font-size:clamp(42px,6.4vw,82px);line-height:1.04;letter-spacing:-1px}
+.hero__t .stroke{color:transparent;-webkit-text-stroke:2px var(--green)}
+.hero__sub{color:var(--muted);font-size:17px;max-width:470px}
+.hero__acts{display:flex;gap:14px;flex-wrap:wrap}
+.hero__stats{display:flex;gap:38px;margin-top:36px;flex-wrap:wrap}
+.stat__n{display:block;font-family:var(--font-d);font-weight:800;font-size:32px}
+.stat__l{font-size:11.5px;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase}
+.hero__hint{position:absolute;right:5%;bottom:90px;z-index:3;font-size:12px;letter-spacing:2px;color:var(--muted);
+  display:flex;align-items:center;gap:10px}
+.hero__hint i{width:34px;height:34px;border-radius:50%;border:1px dashed rgba(163,230,53,.6);display:grid;place-items:center;font-style:normal}
+.hero__scroll{position:absolute;bottom:24px;left:50%;transform:translateX(-50%);font-size:10.5px;letter-spacing:4px;color:var(--muted);
+  display:flex;flex-direction:column;align-items:center;gap:8px;z-index:2}
+.hero__scroll span{width:1px;height:36px;background:linear-gradient(var(--green),transparent);animation:pd 1.6s ease-in-out infinite}
+@keyframes pd{0%,100%{opacity:.3;transform:scaleY(.6)}50%{opacity:1;transform:scaleY(1)}}
+
+/* marquee */
+.marq{background:var(--green);padding:13px 0;overflow:hidden;transform:rotate(-1deg) scale(1.02)}
+.marq__t{display:flex;gap:46px;white-space:nowrap;animation:mq 24s linear infinite;font-family:var(--font-d);font-weight:700;font-size:20px;color:#04150b;letter-spacing:1px}
+@keyframes mq{to{transform:translateX(-50%)}}
+
+/* about */
+.aboutvis{position:relative;min-height:430px}
+.acard{position:absolute;background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:26px;box-shadow:0 30px 60px rgba(0,0,0,.45)}
+.acard--main{inset:0 14% 16% 0;display:flex;flex-direction:column;justify-content:flex-end;gap:6px;
+  background:linear-gradient(150deg,var(--panel2),#0b1a12)}
+.acard--main .big{font-size:64px;position:absolute;top:22px;right:24px;filter:drop-shadow(0 10px 22px rgba(34,197,94,.35))}
+.acard--main h3{font-family:var(--font-d);font-size:22px}
+.acard--main p{color:var(--muted);font-size:14px}
+.acard--f1{top:-16px;right:0;display:flex;flex-direction:column;padding:16px 20px;border-color:rgba(34,197,94,.5);animation:bob 4s ease-in-out infinite}
+.acard--f2{bottom:-4px;left:-6px;display:flex;flex-direction:column;padding:16px 20px;animation:bob 4s ease-in-out infinite 2s}
+.acard--f1 strong,.acard--f2 strong{font-family:var(--font-d);font-size:26px;color:var(--lime)}
+.acard--f1 span,.acard--f2 span{font-size:12px;color:var(--muted)}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+.alist{display:grid;gap:18px;margin:26px 0 30px}
+.alist li{display:flex;gap:14px;align-items:flex-start}
+.alist strong{display:block}
+.alist p{color:var(--muted);font-size:14px}
+.chk{flex:none;width:26px;height:26px;border-radius:50%;display:grid;place-items:center;background:rgba(34,197,94,.15);color:var(--green);font-weight:800;font-size:13px}
+
+/* programs */
+.pgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.pcard{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:30px;transition:.3s}
+.pcard:hover{transform:translateY(-8px);border-color:rgba(34,197,94,.45);box-shadow:0 24px 48px rgba(0,0,0,.45)}
+.pcard .ic{width:56px;height:56px;border-radius:16px;display:grid;place-items:center;font-size:27px;margin-bottom:18px}
+.ic--g{background:rgba(34,197,94,.14)}.ic--b{background:rgba(96,165,250,.14)}.ic--v{background:rgba(167,139,250,.14)}
+.ic--o{background:rgba(251,146,60,.14)}.ic--y{background:rgba(250,204,21,.14)}.ic--r{background:rgba(248,113,113,.14)}
+.pcard h3{font-family:var(--font-d);font-size:21px;margin-bottom:8px}
+.pcard p{color:var(--muted);font-size:14px;margin-bottom:16px}
+.pcard .dur{font-size:12px;font-weight:700;letter-spacing:1.5px;color:var(--lime);text-transform:uppercase}
+
+/* curriculum tabs */
+.curtabs{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:26px}
+.curtab{padding:10px 26px;border-radius:999px;background:var(--panel);border:1px solid var(--line);color:var(--muted);font-weight:700;font-size:14px;cursor:pointer;transition:.2s}
+.curtab:hover{color:#fff;border-color:rgba(255,255,255,.25)}
+.curtab.active{background:var(--green);border-color:var(--green);color:#04150b;box-shadow:0 8px 20px rgba(34,197,94,.35)}
+.curgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.curchip{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px 18px;display:flex;gap:12px;align-items:center;transition:.25s}
+.curchip:hover{border-color:rgba(163,230,53,.5);transform:translateY(-3px)}
+.curchip .em{font-size:22px}
+.curchip b{display:block;font-size:14.5px}
+.curchip small{color:var(--muted);font-size:12.5px}
+
+/* labs */
+.lgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:24px}
+.lcard{position:relative;border-radius:var(--radius);padding:34px 30px;overflow:hidden;border:1px solid var(--line);
+  background:linear-gradient(150deg,var(--panel2),var(--panel));transition:.3s}
+.lcard:hover{transform:translateY(-6px);border-color:rgba(163,230,53,.4)}
+.lcard .em{font-size:44px;display:block;margin-bottom:16px}
+.lcard h3{font-family:var(--font-d);font-size:23px;margin-bottom:8px}
+.lcard p{color:var(--muted);font-size:14px;max-width:400px}
+.lcard .tag{position:absolute;top:24px;right:24px;font-size:11px;font-weight:800;letter-spacing:2px;color:var(--lime);
+  background:rgba(163,230,53,.12);padding:6px 14px;border-radius:999px;border:1px solid rgba(163,230,53,.3)}
+
+/* research */
+.rgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.rcard{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:26px;text-align:center;transition:.3s}
+.rcard:hover{transform:translateY(-6px);border-color:rgba(96,165,250,.45)}
+.rcard .n{font-family:var(--font-d);font-weight:800;font-size:38px;color:var(--blue)}
+.rcard p{color:var(--muted);font-size:13px;margin-top:6px}
+
+/* faculty */
+.fgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:22px}
+.fcard{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:30px 22px;text-align:center;transition:.3s}
+.fcard:hover{transform:translateY(-8px);border-color:rgba(34,197,94,.45)}
+.fav{width:84px;height:84px;margin:0 auto 16px;border-radius:50%;display:grid;place-items:center;
+  font-family:var(--font-d);font-weight:800;font-size:26px;color:#04150b;border:2px solid rgba(255,255,255,.15)}
+.fa1{background:linear-gradient(135deg,#22c55e,#15803d);color:#eafff2}
+.fa2{background:linear-gradient(135deg,#a3e635,#4d7c0f)}
+.fa3{background:linear-gradient(135deg,#60a5fa,#1d4ed8);color:#eaf3ff}
+.fa4{background:linear-gradient(135deg,#fb923c,#c2410c);color:#fff4ea}
+.fcard h3{font-family:var(--font-d);font-size:19px}
+.frole{font-size:11.5px;letter-spacing:1.5px;text-transform:uppercase;color:var(--lime);font-weight:700}
+.fcard p{color:var(--muted);font-size:13px;margin:10px 0 16px;min-height:60px}
+.fsocial{display:flex;justify-content:center;gap:10px}
+.fsocial a{width:34px;height:34px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;color:var(--muted);font-size:13px;transition:.2s}
+.fsocial a:hover{border-color:var(--green);color:var(--green);transform:translateY(-3px)}
+
+/* placements */
+.place{display:grid;grid-template-columns:1.1fr .9fr;gap:56px;align-items:center}
+.recruiter{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:30px}
+.rc{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px 12px;text-align:center;font-family:var(--font-d);font-weight:700;font-size:15px;color:var(--muted);transition:.25s}
+.rc:hover{color:#fff;border-color:rgba(34,197,94,.5);transform:translateY(-3px)}
+.salbox{background:linear-gradient(160deg,var(--panel2),var(--panel));border:1px solid rgba(34,197,94,.35);border-radius:20px;padding:34px;box-shadow:0 30px 60px rgba(0,0,0,.4)}
+.salrow{display:flex;justify-content:space-between;align-items:baseline;padding:14px 0;border-bottom:1px dashed var(--line)}
+.salrow:last-of-type{border-bottom:0}
+.salrow b{font-family:var(--font-d);font-size:26px;color:var(--lime)}
+.salrow span{color:var(--muted);font-size:13.5px}
+
+/* news */
+.ngrid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.ncard{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;transition:.3s;display:flex;flex-direction:column}
+.ncard:hover{transform:translateY(-6px);border-color:rgba(251,146,60,.45)}
+.ncov{height:120px;display:grid;place-items:center;font-size:46px}
+.ncov--1{background:linear-gradient(135deg,#14532d,#22c55e)}
+.ncov--2{background:linear-gradient(135deg,#1e3a8a,#60a5fa)}
+.ncov--3{background:linear-gradient(135deg,#7c2d12,#fb923c)}
+.nbody{padding:22px;display:flex;flex-direction:column;gap:8px;flex:1}
+.ndate{font-size:12px;color:var(--muted);letter-spacing:1px;text-transform:uppercase}
+.nbody h3{font-family:var(--font-d);font-size:19px}
+.nbody p{color:var(--muted);font-size:14px;flex:1}
+.nlink{color:var(--lime);font-weight:700;font-size:13.5px}
+.nlink:hover{text-decoration:underline}
+
+/* testimonials */
+.tslider{overflow:hidden}
+.ttrack{display:flex;transition:transform .55s cubic-bezier(.22,1,.36,1)}
+.tslide{flex:0 0 100%;background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:34px 8%;text-align:center}
+.tslide p{font-size:clamp(16px,2.2vw,22px);font-weight:500}
+.tslide footer{margin-top:20px;display:grid;gap:3px}
+.tslide strong{font-size:15px}
+.tslide span{color:var(--muted);font-size:13px}
+.tnav{display:flex;align-items:center;justify-content:center;gap:18px;margin-top:24px}
+.tnav button{width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:var(--panel);color:#fff;font-size:22px;cursor:pointer;transition:.2s}
+.tnav button:hover{border-color:var(--green);color:var(--green)}
+.tdot{width:9px;height:9px;border-radius:999px;background:rgba(255,255,255,.25);cursor:pointer;transition:.25s}
+.tdot.active{background:var(--green);width:26px}
+
+/* contact */
+.cinfo{display:grid;gap:20px;margin-top:28px}
+.cinfo li{display:flex;gap:16px}
+.cinfo .em{flex:none;width:46px;height:46px;border-radius:14px;display:grid;place-items:center;font-size:20px;background:rgba(34,197,94,.12)}
+.cinfo strong{display:block;font-size:15px}
+.cinfo p{color:var(--muted);font-size:14px}
+.cform{background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:32px;display:grid;gap:18px}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.cform label{display:grid;gap:8px;font-size:13px;color:var(--muted);font-weight:600}
+input,select,textarea{background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:13px 16px;color:var(--text);
+  font-family:var(--font-b);font-size:14px;width:100%;outline:none;transition:.2s}
+input:focus,select:focus,textarea:focus{border-color:var(--green);box-shadow:0 0 0 3px rgba(34,197,94,.18)}
+.fstatus{font-size:14px;min-height:20px}
+.fstatus.error{color:var(--red)}
+.fstatus.success{color:var(--green)}
+
+/* footer */
+.footer{background:#050d08;border-top:1px solid var(--line);padding-top:70px}
+.fgrid-ft{display:grid;grid-template-columns:1.4fr 1fr 1fr 1.3fr;gap:40px;padding-bottom:50px}
+.footer p{color:var(--muted);font-size:14px}
+.fbrand p{margin:16px 0 20px;max-width:300px}
+.fsoc{display:flex;gap:10px}
+.fsoc a{width:40px;height:40px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;color:var(--muted);transition:.2s}
+.fsoc a:hover{border-color:var(--green);color:var(--green);transform:translateY(-3px)}
+.fcol h4{font-family:var(--font-d);font-size:17px;margin-bottom:16px}
+.fcol ul{display:grid;gap:10px}
+.fcol a{color:var(--muted);font-size:14px;transition:.2s}
+.fcol a:hover{color:var(--lime)}
+.fnews{display:flex;gap:10px}
+.fnews input{flex:1}
+.fbot{border-top:1px solid var(--line);padding:22px 0;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;color:var(--muted);font-size:13px}
+
+/* to top + reveal */
+.totop{position:fixed;right:24px;bottom:24px;width:48px;height:48px;border-radius:50%;background:var(--green);color:#04150b;
+  border:0;font-size:20px;cursor:pointer;opacity:0;visibility:hidden;transform:translateY(10px);transition:.3s;z-index:900;box-shadow:0 10px 26px rgba(34,197,94,.4)}
+.totop.show{opacity:1;visibility:visible;transform:none}
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .7s ease,transform .7s ease}
+.reveal.visible{opacity:1;transform:none}
+
+/* responsive */
+@media(max-width:1024px){
+  .pgrid,.curgrid,.ngrid{grid-template-columns:repeat(2,1fr)}
+  .rgrid,.fgrid{grid-template-columns:repeat(2,1fr)}
+  .fgrid-ft{grid-template-columns:1fr 1fr}
+  .place{grid-template-columns:1fr;gap:40px}
+}
+@media(max-width:860px){
+  .section{padding:72px 0}
+  .grid2{grid-template-columns:1fr;gap:44px}
+  .menu{position:fixed;inset:0;background:rgba(5,13,8,.98);flex-direction:column;justify-content:center;gap:34px;
+    transform:translateY(-100%);transition:.4s cubic-bezier(.22,1,.36,1);pointer-events:none;opacity:0;visibility:hidden}
+  .menu.open{transform:none;pointer-events:auto;opacity:1;visibility:visible}
+  .menu ul{flex-direction:column;text-align:center;gap:20px}
+  .mlink{font-size:20px}
+  .burger{display:flex;position:relative;z-index:1001}
+  .hero__in{position:static}
+  .hero__hint{display:none}
+  .lgrid{grid-template-columns:1fr}
+  .aboutvis{min-height:380px}
+}
+@media(max-width:560px){
+  .pgrid,.curgrid,.ngrid,.rgrid,.fgrid{grid-template-columns:1fr}
+  .frow{grid-template-columns:1fr}
+  .fgrid-ft{grid-template-columns:1fr}
+  .recruiter{grid-template-columns:repeat(2,1fr)}
+  .hero__t{font-size:clamp(38px,11vw,56px)}
+  .tslide{padding:26px 6%}
+}
+</style>
+</head>
+<body>
+
+<!-- LOADER -->
+<div class="loader" id="loader">
+  <div>
+    <div class="bar"><span></span></div>
+    <p>PREPARING THE LAB…</p>
+  </div>
+</div>
+
+<!-- NAV -->
+<header class="nav" id="nav">
+  <div class="container navwrap">
+    <a href="#home" class="logo">
+      <span class="logo__mark">🥑</span>
+      <span class="logo__txt">Nutri<em>Tech</em></span>
+    </a>
+    <nav class="menu" id="menu">
+      <ul>
+        <li><a href="#home" class="mlink active">Home</a></li>
+        <li><a href="#about" class="mlink">About</a></li>
+        <li><a href="#programs" class="mlink">Programs</a></li>
+        <li><a href="#curriculum" class="mlink">Curriculum</a></li>
+        <li><a href="#labs" class="mlink">Labs</a></li>
+        <li><a href="#faculty" class="mlink">Faculty</a></li>
+        <li><a href="#placements" class="mlink">Placements</a></li>
+        <li><a href="#contact" class="mlink">Contact</a></li>
+      </ul>
+      <a href="#contact" class="btn navcta">Apply Now</a>
+    </nav>
+    <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<!-- HERO + 3D -->
+<section class="hero" id="home">
+  <canvas id="hero3d"></canvas>
+  <div class="hero__vg"></div>
+  <div class="hero__in">
+    <div class="hero__copy">
+      <span class="chip reveal">🎓 NBA ACCREDITED · EST. 1998</span>
+      <h1 class="hero__t">
+        <span class="reveal" style="display:block">DEPARTMENT OF</span>
+        <span class="reveal stroke" style="display:block">FOOD</span>
+        <span class="reveal" style="display:block">TECHNOLOGY</span>
+      </h1>
+      <p class="hero__sub reveal">
+        Where food science meets engineering. Smart labs, industry-backed research,
+        and a curriculum built for the future of sustainable nutrition.
+      </p>
+      <div class="hero__acts reveal">
+        <a href="#programs" class="btn btn--lg">Explore Programs</a>
+        <a href="#contact" class="btn btn--ghost btn--lg">Book a Campus Tour ▸</a>
+      </div>
+      <div class="hero__stats reveal">
+        <div class="stat"><span class="stat__n" data-count="1250">0</span><span class="stat__l">Students</span></div>
+        <div class="stat"><span class="stat__n" data-count="42">0</span><span class="stat__l">Faculty</span></div>
+        <div class="stat"><span class="stat__n" data-count="96">0</span><span class="stat__l">% Placement</span></div>
+        <div class="stat"><span class="stat__n" data-count="27">0</span><span class="stat__l">Years of Excellence</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="hero__hint"><i>3D</i> DRAG TO SPIN · MOVE MOUSE TO TILT</div>
+  <div class="hero__scroll"><span></span>SCROLL</div>
+  <div style="position:absolute;right:4%;top:50%;transform:translateY(-50%);z-index:3;font-family:var(--font-d);font-weight:800;font-size:15px;letter-spacing:2px;color:var(--lime);text-align:center;opacity:.85">
+    FSSAI ·<br />HACCP<br />ISO 22000
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marq" aria-hidden="true">
+  <div class="marq__t">
+    <span>FOOD SAFETY ★</span><span>NUTRACEUTICALS ★</span><span>PACKAGING ★</span><span>FERMENTATION ★</span>
+    <span>SENSORY SCIENCE ★</span><span>FOOD ENGINEERING ★</span><span>NUTRITION ★</span><span>R&amp;D ★</span>
+    <span>FOOD SAFETY ★</span><span>NUTRACEUTICALS ★</span><span>PACKAGING ★</span><span>FERMENTATION ★</span>
+    <span>SENSORY SCIENCE ★</span><span>FOOD ENGINEERING ★</span><span>NUTRITION ★</span><span>R&amp;D ★</span>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section class="section" id="about">
+  <div class="container grid2">
+    <div class="aboutvis reveal">
+      <div class="acard acard--main">
+        <span class="big">🧪</span>
+        <h3>12 smart labs. One mission.</h3>
+        <p>Food chemistry, microbiology, processing, packaging and sensory evaluation — all under one roof.</p>
+      </div>
+      <div class="acard acard--f1"><strong>NAAC A++</strong><span>institutionally accredited</span></div>
+      <div class="acard acard--f2"><strong>35+</strong><span>industry MOUs &amp; partners</span></div>
+    </div>
+    <div>
+      <p class="kicker reveal">— WHO WE ARE</p>
+      <h2 class="h2 reveal">SCIENCE YOU CAN <span class="ac">TASTE.</span></h2>
+      <p class="desc reveal">
+        Since 1998, the Department of Food Technology has turned curious students into industry-ready
+        food technologists — from farm-fresh raw material to supermarket shelf.
+      </p>
+      <ul class="alist">
+        <li class="reveal"><span class="chk">✓</span><div><strong>Industry-Driven Curriculum</strong><p>Syllabus co-designed with FSSAI, Nestlé, ITC and Amul veterans, revised every year.</p></div></li>
+        <li class="reveal"><span class="chk">✓</span><div><strong>Research That Ships</strong><p>Student projects have become 14 filed patents and 6 licensed products.</p></div></li>
+        <li class="reveal"><span class="chk">✓</span><div><strong>Farm-to-Fork Exposure</strong><p>Field visits, pilot-plant runs and a fully functional student-run food startup incubator.</p></div></li>
+      </ul>
+      <a href="#faculty" class="btn btn--outline reveal">Meet the Faculty</a>
+    </div>
+  </div>
+</section>
+
+<!-- PROGRAMS -->
+<section class="section section--tint" id="programs">
+  <div class="container">
+    <div class="sec-head">
+      <div>
+        <p class="kicker reveal">— ACADEMICS</p>
+        <h2 class="h2 reveal">OUR <span class="ac">PROGRAMS</span></h2>
+      </div>
+      <p class="desc reveal">From undergraduate foundations to doctoral research — pick your level.</p>
+    </div>
+    <div class="pgrid">
+      <article class="pcard reveal">
+        <div class="ic ic--g">🎓</div>
+        <h3>B.Tech Food Technology</h3>
+        <p>4-year degree covering chemistry, microbiology, processing, packaging, quality systems and a full-year industry project.</p>
+        <span class="dur">4 Years · 120 Seats</span>
+      </article>
+      <article class="pcard reveal">
+        <div class="ic ic--b">🎓</div>
+        <h3>M.Tech Food Process Engg.</h3>
+        <p>2-year master's with specializations in thermal processing, extrusion and cold-chain engineering.</p>
+        <span class="dur">2 Years · 24 Seats</span>
+      </article>
+      <article class="pcard reveal">
+        <div class="ic ic--v">🔬</div>
+        <h3>Ph.D. Food Science</h3>
+        <p>Doctoral research in nutraceuticals, food safety, bioprocessing and sustainable packaging with funded fellowships.</p>
+        <span class="dur">3–5 Years · Funded</span>
+      </article>
+      <article class="pcard reveal">
+        <div class="ic ic--o">📜</div>
+        <h3>PG Diploma · Food Safety &amp; QA</h3>
+        <p>1-year diploma for working professionals — HACCP, ISO 22000, FSSAI compliance and audit readiness.</p>
+        <span class="dur">1 Year · Weekend</span>
+      </article>
+      <article class="pcard reveal">
+        <div class="ic ic--y">🚀</div>
+        <h3>Food Startup Incubator</h3>
+        <p>Pilot-scale facility, mentorship and licensing support for student food ventures — 12 startups launched so far.</p>
+        <span class="dur">Rolling Admissions</span>
+      </article>
+      <article class="pcard reveal">
+        <div class="ic ic--r">🧑‍🏫</div>
+        <h3>Industry Certifications</h3>
+        <p>Sensory panel training, HACCP lead auditor, Six Sigma and FSSAI supervisory certifications embedded in the degree.</p>
+        <span class="dur">Embedded Credits</span>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- CURRICULUM -->
+<section class="section" id="curriculum">
+  <div class="container">
+    <div class="sec-head">
+      <div>
+        <p class="kicker reveal">— WHAT YOU'LL STUDY</p>
+        <h2 class="h2 reveal">CURRICULUM <span class="ac">HIGHLIGHTS</span></h2>
+      </div>
+      <p class="desc reveal">A snapshot of core and elective courses across the B.Tech journey.</p>
+    </div>
+    <div class="curtabs reveal" id="curTabs">
+      <button class="curtab active" data-yr="y1">Year 1</button>
+      <button class="curtab" data-yr="y2">Year 2</button>
+      <button class="curtab" data-yr="y3">Year 3</button>
+      <button class="curtab" data-yr="y4">Year 4</button>
+    </div>
+    <div class="curgrid reveal" id="curGrid"></div>
+  </div>
+</section>
+
+<!-- LABS -->
+<section class="section section--tint" id="labs">
+  <div class="container">
+    <div class="sec-head">
+      <div>
+        <p class="kicker reveal">— FACILITIES</p>
+        <h2 class="h2 reveal">SMART <span class="ac">LABS</span></h2>
+      </div>
+      <p class="desc reveal">Twelve specialized laboratories with pilot-scale processing equipment.</p>
+    </div>
+    <div class="lgrid">
+      <article class="lcard reveal">
+        <span class="tag">PILOT PLANT</span>
+        <span class="em">⚙️</span>
+        <h3>Food Processing Pilot Plant</h3>
+        <p>Pasteurizers, spray dryer, extruder and retort systems — run real production batches at pilot scale.</p>
+      </article>
+      <article class="lcard reveal">
+        <span class="tag">ISO 17025</span>
+        <span class="em">🦠</span>
+        <h3>Food Microbiology Lab</h3>
+        <p>Pathogen detection, probiotic culturing and shelf-life studies in a BSL-2 certified facility.</p>
+      </article>
+      <article class="lcard reveal">
+        <span class="tag">GC-MS · HPLC</span>
+        <span class="em">📊</span>
+        <h3>Analytical &amp; Instrumentation</h3>
+        <p>Quantify nutrients, toxins and adulterants with GC-MS, HPLC, FTIR and atomic absorption spectrometry.</p>
+      </article>
+      <article class="lcard reveal">
+        <span class="tag">AI + CV</span>
+        <span class="em">🤖</span>
+        <h3>Sensory &amp; Digital Evaluation</h3>
+        <p>Trained taste panels plus computer-vision texture analysis and electronic tongue/nose systems.</p>
+      </article>
+      <article class="lcard reveal">
+        <span class="tag">SUSTAINABLE</span>
+        <span class="em">📦</span>
+        <h3>Packaging Innovation Lab</h3>
+        <p>Biodegradable films, active packaging and shelf-life testing chambers for next-gen materials.</p>
+      </article>
+      <article class="lcard reveal">
+        <span class="tag">STARTUP</span>
+        <span class="em">🚀</span>
+        <h3>Product Development Studio</h3>
+        <p>Concept-to-shelf studio where student teams formulation-test and consumer-test their own products.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- RESEARCH -->
+<section class="section" id="research">
+  <div class="container">
+    <div class="sec-head">
+      <div>
+        <p class="kicker reveal">— RESEARCH @ GCT</p>
+        <h2 class="h2 reveal">RESEARCH IN <span class="ac">NUMBERS</span></h2>
+      </div>
+      <p class="desc reveal">Funded projects, publications and patents across six focus domains.</p>
+    </div>
+    <div class="rgrid">
+      <div class="rcard reveal"><span class="n" data-count="184">0</span><p>Scopus Publications (5 yrs)</p></div>
+      <div class="rcard reveal"><span class="n" data-count="14">0</span><p>Patents Filed</p></div>
+      <div class="rcard reveal"><span class="n" data-count="23">0</span><p>Funded Projects</p></div>
+      <div class="rcard reveal"><span class="n" data-count="9">0</span><p>Industry Collaborations</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- FACULTY -->
+<section class="section section--tint" id="faculty">
+  <div class="container">
+    <div class="sec-head">
+      <div>
+        <p class="kicker reveal">— MENTORS</p>
+        <h2 class="h2 reveal">MEET THE <span class="ac">FACULTY</span></h2>
+      </div>
+      <p class="desc reveal">42 faculty members — PhDs, industry veterans and FSSAI consultants.</p>
+    </div>
+    <div class="fgrid">
+      <article class="fcard reveal">
+        <div class="fav fa1">Dr</div>
+        <h3>Dr. VIJAY KUMAR </h3>
+        <span class="frole">Head of Department</span>
+        <p>20 years in food process engineering. Leads the cold-chain and thermal processing research group.</p>
+        <div class="fsocial"><a href="#">𝕏</a><a href="#">in</a><a href="#">✉</a></div>
+      </article>
+      <article class="fcard reveal">
+        <div class="fav fa2">PhD</div>
+        <h3>Dr. SLIM SHADY </h3>
+        <span class="frole">Food Microbiology</span>
+        <p>Probiotics and fermented foods researcher with 3 patents and 40+ publications.</p>
+        <div class="fsocial"><a href="#">𝕏</a><a href="#">in</a><a href="#">✉</a></div>
+      </article>
+      <article class="fcard reveal">
+        <div class="fav fa3">PhD</div>
+        <h3>Dr. PSYCHO-RASCEL</h3>
+        <span class="frole">Food Safety &amp; QA</span>
+        <p>FSSAI scientific panel member. Trains India's next generation of food safety auditors.</p>
+        <div class="fsocial"><a href="#">𝕏</a><a href="#">in</a><a href="#">✉</a></div>
+      </article>
+      <article class="fcard reveal">
+        <div class="fav fa4">PhD</div>
+        <h3>Dr. SHAHIL </h3>
+        <span class="frole">Packaging Science</span>
+        <p>Biodegradable films and active packaging specialist; consultant to 9 FMCG brands.</p>
+        <div class="fsocial"><a href="#">𝕏</a><a href="#">in</a><a href="#">✉</a></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- PLACEMENTS -->
+<section class="section" id="placements">
+  <div class="container place">
+    <div>
+      <p class="kicker reveal">— CAREERS</p>
+      <h2 class="h2 reveal">PLACEMENTS &amp; <span class="ac">RECRUITERS</span></h2>
+      <p class="desc reveal">
+        Our graduates join product development, QA, R&amp;D, regulatory affairs and supply-chain roles
+        across FMCG, nutraceutical and food-service giants.
+      </p>
+      <div class="recruiter reveal">
+        <div class="rc">Nestlé</div><div class="rc">Amul</div><div class="rc">ITC</div><div class="rc">Britannia</div>
+        <div class="rc">Hindustan Unilever</div><div class="rc">Parle</div><div class="rc">Dabur</div><div class="rc">Mother Dairy</div>
+      </div>
+    </div>
+    <div class="salbox reveal">
+      <div class="salrow"><span>Highest Package</span><b>₹18 LPA</b></div>
+      <div class="salrow"><span>Average Package</span><b>₹6.8 LPA</b></div>
+      <div class="salrow"><span>Median Package</span><b>₹5.5 LPA</b></div>
+      <div class="salrow"><span>Placement Rate</span><b>96%</b></div>
+      <div class="salrow"><span>Offers in 2025</span><b>312</b></div>
+    </div>
+  </div>
+</section>
+
+<!-- NEWS -->
+<section class="section section--tint" id="news">
+  <div class="container">
+    <div class="sec-head">
+      <div>
+        <p class="kicker reveal">— DEPARTMENT BUZZ</p>
+        <h2 class="h2 reveal">NEWS &amp; <span class="ac">EVENTS</span></h2>
+      </div>
+      <p class="desc reveal">Workshops, fests, hackathons and milestones from the department.</p>
+    </div>
+    <div class="ngrid">
+      <article class="ncard reveal">
+        <div class="ncov ncov--1">🏆</div>
+        <div class="nbody">
+          <span class="ndate">Sep 02, 2026 · Achievement</span>
+          <h3>Team NutriTech wins National Food Innovation Challenge</h3>
+          <p>Our B.Tech final-years took first prize for a millet-based, shelf-stable probiotic beverage.</p>
+          <a class="nlink" href="#">Read more →</a>
+        </div>
+      </article>
+      <article class="ncard reveal">
+        <div class="ncov ncov--2">🎙️</div>
+        <div class="nbody">
+          <span class="ndate">Aug 21, 2026 · Workshop</span>
+          <h3>Two-day HACCP certification workshop</h3>
+          <p>FSSAI-approved trainers will run hands-on hazard analysis sessions. Limited to 40 seats.</p>
+          <a class="nlink" href="#">Read more →</a>
+        </div>
+      </article>
+      <article class="ncard reveal">
+        <div class="ncov ncov--3">🧫</div>
+        <div class="nbody">
+          <span class="ndate">Aug 05, 2026 · Research</span>
+          <h3>₹1.2 Cr grant for biodegradable packaging research</h3>
+          <p>Dr. Verma's team secures DST funding for seaweed-based active food films over three years.</p>
+          <a class="nlink" href="#">Read more →</a>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="section" id="voices">
+  <div class="container">
+    <div class="sec-head">
+      <div>
+        <p class="kicker reveal">— FROM OUR ALUMNI</p>
+        <h2 class="h2 reveal">SUCCESS <span class="ac">STORIES</span></h2>
+      </div>
+    </div>
+    <div class="tslider reveal" id="tSlider">
+      <div class="ttrack" id="tTrack">
+        <blockquote class="tslide">
+          <p>“The pilot plant experience got me my Nestlé R&amp;D offer before final exams. Nothing compares to running a real spray dryer at 3 AM before a submission.”</p>
+          <footer><strong> vijay kumar .S</strong><span>B.Tech 2023 · Scientist, Nestlé R&amp;D</span></footer>
+        </blockquote>
+        <blockquote class="tslide">
+          <p>“From sensory panels to FSSAI audits, every class mapped to something I now do daily as a QA manager.”</p>
+          <footer><strong>Manickam .S</strong><span>B.Tech 2021 · QA Manager, ITC Foods</span></footer>
+        </blockquote>
+        <blockquote class="tslide">
+          <p>“My final-year project became a startup. The incubator's pilot facility made our first commercial batch possible.”</p>
+          <footer><strong>shahil.S</strong><span>B.Tech 2022 · Founder, GrainGood Foods</span></footer>
+        </blockquote>
+        <blockquote class="tslide">
+          <p>“The M.Tech cold-chain specialization is why I lead logistics engineering for a national dairy brand today.”</p>
+          <footer><strong>tony S</strong><span>M.Tech 2020 · Cold-Chain Lead, Amul</span></footer>
+        </blockquote>
+      </div>
+      <div class="tnav">
+        <button id="tPrev" aria-label="Previous">‹</button>
+        <div id="tDots" style="display:flex;gap:8px"></div>
+        <button id="tNext" aria-label="Next">›</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="section section--tint" id="contact">
+  <div class="container grid2">
+    <div>
+      <p class="kicker reveal">— ADMISSIONS &amp; QUERIES</p>
+      <h2 class="h2 reveal">GET IN <span class="ac">TOUCH</span></h2>
+      <p class="desc reveal">Questions about programs, admissions or lab visits? Write to us — we reply within one working day.</p>
+      <ul class="cinfo">
+        <li class="reveal"><span class="em">📍</span><div><strong>Visit Us</strong><p>Block C, vijaytech Institute of Technology, vijay's Park, Bengaluru 560100</p></div></li>
+        <li class="reveal"><span class="em">📞</span><div><strong>Department Office</strong><p><a href="tel:+918044556677">+91 9361211082</a> · Mon–Sat, 9 AM–5 PM</p></div></li>
+        <li class="reveal"><span class="em">✉️</span><div><strong>Email</strong><p><a href="mailto:foodtech@nutritech.edu">vijaykumarvijaykumar36727@gmail.com</a></p></div></li>
+        <li class="reveal"><span class="em">🕒</span><div><strong>Admissions Helpline</strong><p><a href="tel:+911800123456">9361-211-082</a> (toll-free)</p></div></li>
+      </ul>
+    </div>
+    <form class="cform reveal" id="cForm" novalidate>
+      <div class="frow">
+        <label>Full Name<input type="text" name="name" placeholder="Your name" required /></label>
+        <label>Email<input type="email" name="email" placeholder="you@email.com" required /></label>
+      </div>
+      <div class="frow">
+        <label>Phone<input type="tel" name="phone" placeholder="+91 98765 43210" /></label>
+        <label>Program of Interest
+          <select name="program">
+            <option>B.Tech Food Technology</option>
+            <option>M.Tech Food Process Engineering</option>
+            <option>Ph.D. Food Science</option>
+            <option>PG Diploma — Food Safety &amp; QA</option>
+            <option>Startup Incubator</option>
+          </select>
+        </label>
+      </div>
+      <label>Message<textarea name="message" rows="4" placeholder="Tell us what you'd like to know…" required></textarea></label>
+      <button type="submit" class="btn btn--block">Send Enquiry ⚡</button>
+      <p class="fstatus" id="fStatus"></p>
+    </form>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container fgrid-ft">
+    <div class="fbrand">
+      <a href="#home" class="logo"><span class="logo__mark">🥑</span><span class="logo__txt">Nutri<em>Tech</em></span></a>
+      <p>Department of Food Technology — building the scientists, engineers and founders who feed the future.</p>
+      <div class="fsoc">
+        <a href="#" aria-label="X">𝕏</a><a href="#" aria-label="Instagram">ig</a><a href="#" aria-label="LinkedIn">in</a><a href="#" aria-label="YouTube">▶</a>
+      </div>
+    </div>
+    <div class="fcol">
+      <h4>Department</h4>
+      <ul>
+        <li><a href="#about">About Us</a></li>
+        <li><a href="#programs">Programs</a></li>
+        <li><a href="#curriculum">Curriculum</a></li>
+        <li><a href="#labs">Labs &amp; Facilities</a></li>
+        <li><a href="#faculty">Faculty</a></li>
+      </ul>
+    </div>
+    <div class="fcol">
+      <h4>Students</h4>
+      <ul>
+        <li><a href="#placements">Placements</a></li>
+        <li><a href="#news">News &amp; Events</a></li>
+        <li><a href="#voices">Alumni Voices</a></li>
+        <li><a href="#contact">Admissions</a></li>
+        <li><a href="#contact">Campus Tour</a></li>
+      </ul>
+    </div>
+    <div class="fcol">
+      <h4>Newsletter</h4>
+      <p>Monthly digest: research highlights, events and admission alerts.</p>
+      <form class="fnews" id="nForm">
+        <input type="email" placeholder="Your email" required />
+        <button type="submit" class="btn">→</button>
+      </form>
+      <p class="fstatus" id="nStatus" style="margin-top:8px"></p>
+    </div>
+  </div>
+  <div class="fbot">
+    <div class="container" style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px">
+      <span>© 2026 NutriTech Institute · Department of Food Technology</span>
+      <span>Built with 🥑 + Three.js</span>
+    </div>
+  </div>
+</footer>
+
+<button class="totop" id="toTop" aria-label="Back to top">↑</button>
+
+<script>
+/* ============================================================
+   NUTRITECH — app JS (3D hero + interactions)
+   ============================================================ */
+const $  = (s, c=document) => c.querySelector(s);
+const $$ = (s, c=document) => Array.from(c.querySelectorAll(s));
+
+/* ---------- 3D HERO: floating burger + orbiting ingredients ---------- */
+function initHero3D(){
+  const canvas = $('#hero3d');
+  if(!canvas || typeof THREE === 'undefined'){ if(canvas) canvas.style.display='none'; return; }
+  let renderer;
+  try{ renderer = new THREE.WebGLRenderer({canvas, antialias:true, alpha:true}); }
+  catch(e){ canvas.style.display='none'; return; }
+  renderer.setSize(innerWidth, innerHeight);
+  renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+
+  const scene  = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(42, innerWidth/innerHeight, .1, 100);
+  camera.position.set(0, .5, 9);
+
+  const group = new THREE.Group();
+  group.scale.setScalar(0.82);
+  scene.add(group);
+
+  /* materials */
+  const bunTop  = new THREE.MeshStandardMaterial({color:0xd9913f, roughness:.75});
+  const bunBot  = new THREE.MeshStandardMaterial({color:0xc97f33, roughness:.8});
+  const patty   = new THREE.MeshStandardMaterial({color:0x5b3a24, roughness:.9});
+  const cheese  = new THREE.MeshStandardMaterial({color:0xffc93c, roughness:.55});
+  const lettuce = new THREE.MeshStandardMaterial({color:0x4caf50, roughness:.8});
+  const tomato  = new THREE.MeshStandardMaterial({color:0xe53935, roughness:.65});
+  const sesame  = new THREE.MeshStandardMaterial({color:0xf3e5c0, roughness:.6});
+  const steel   = new THREE.MeshStandardMaterial({color:0xb9bec8, metalness:1, roughness:.2});
+  const glassG  = new THREE.MeshStandardMaterial({color:0x22c55e, transparent:true, opacity:.55, roughness:.15, metalness:.1});
+  const glassO  = new THREE.MeshStandardMaterial({color:0xff8a3c, transparent:true, opacity:.55, roughness:.15, metalness:.1});
+  const glassB  = new THREE.MeshStandardMaterial({color:0x3b82f6, transparent:true, opacity:.55, roughness:.15, metalness:.1});
+  const cherry  = new THREE.MeshStandardMaterial({color:0xd92140, roughness:.35});
+  const leaf    = new THREE.MeshStandardMaterial({color:0x2e7d32, roughness:.85});
+  const straw   = new THREE.MeshStandardMaterial({color:0xf8fafc, roughness:.5});
+
+  /* ---- burger ---- */
+  const burger = new THREE.Group();
+  // bottom bun: half-sphere look via scaled sphere
+  const bot = new THREE.Mesh(new THREE.SphereGeometry(1.35, 32, 16, 0, Math.PI*2, Math.PI/2, Math.PI/2), bunBot);
+  bot.scale.y = .55; bot.rotation.x = Math.PI; bot.position.y = -.72;
+  burger.add(bot);
+  // patty (flattened cylinder, slightly irregular via scale)
+  const pat = new THREE.Mesh(new THREE.CylinderGeometry(1.28, 1.32, .34, 40), patty);
+  pat.position.y = -.38; pat.scale.x = 1.03;
+  burger.add(pat);
+  // cheese: rotated square planes
+  [[0,-.18,0,.4],[0,-.14,Math.PI/4,-.35]].forEach(([x,y,rz,ry])=>{
+    const ch = new THREE.Mesh(new THREE.PlaneGeometry(1.9,1.9), cheese);
+    ch.rotation.x = -Math.PI/2; ch.rotation.z = rz; ch.rotation.y = ry;
+    ch.position.set(x, y, 0); ch.scale.set(1,1,.9);
+    burger.add(ch);
+  });
+  // tomato slice
+  const tom = new THREE.Mesh(new THREE.CylinderGeometry(1.18, 1.18, .12, 40), tomato);
+  tom.position.y = -.06; burger.add(tom);
+  // lettuce ruffle: torus with noise-ish scale
+  const let1 = new THREE.Mesh(new THREE.TorusGeometry(1.22, .17, 14, 60), lettuce);
+  let1.rotation.x = Math.PI/2; let1.position.y = .1; let1.scale.z = .8;
+  burger.add(let1);
+  // top bun
+  const top = new THREE.Mesh(new THREE.SphereGeometry(1.35, 32, 18, 0, Math.PI*2, 0, Math.PI/2), bunTop);
+  top.scale.y = .62; top.position.y = .18;
+  burger.add(top);
+  // sesame seeds
+  for(let i=0;i<26;i++){
+    const s = new THREE.Mesh(new THREE.SphereGeometry(.045, 8, 8), sesame);
+    const a = Math.random()*Math.PI*2, r = Math.random()*1.05;
+    s.position.set(Math.cos(a)*r, .18 + .84*Math.sqrt(Math.max(0,1-(r/1.35)**2))*.62 + .02, Math.sin(a)*r);
+    s.scale.y = .6;
+    burger.add(s);
+  }
+  burger.scale.setScalar(1.12);
+  burger.position.set(-2.6, .1, .5);
+  group.add(burger);
+
+  /* ---- lab flask (Erlenmeyer-ish) ---- */
+  const flask = new THREE.Group();
+  const cone = new THREE.Mesh(new THREE.CylinderGeometry(.55, 1.05, 1.7, 40), glassG);
+  const neck = new THREE.Mesh(new THREE.CylinderGeometry(.28, .28, .7, 32), glassG);
+  neck.position.y = 1.15;
+  const lip  = new THREE.Mesh(new THREE.TorusGeometry(.3, .05, 10, 32), steel);
+  lip.rotation.x = Math.PI/2; lip.position.y = 1.5;
+  const fluid = new THREE.Mesh(new THREE.CylinderGeometry(.93, .55, .5, 40),
+    new THREE.MeshStandardMaterial({color:0x22c55e, transparent:true, opacity:.85, roughness:.3}));
+  fluid.position.y = -.55;
+  // bubbles
+  const bubbles = [];
+  for(let i=0;i<7;i++){
+    const b = new THREE.Mesh(new THREE.SphereGeometry(.06+Math.random()*.05, 10, 10),
+      new THREE.MeshBasicMaterial({color:0xd9ffe6, transparent:true, opacity:.8}));
+    b.position.set((Math.random()-.5)*.5, -.75+Math.random()*.3, (Math.random()-.5)*.5);
+    bubbles.push(b); flask.add(b);
+  }
+  flask.add(cone, neck, lip, fluid);
+  flask.position.set(2.9, .35, .8);
+  flask.scale.setScalar(.95);
+  group.add(flask);
+
+  /* ---- juice glass ---- */
+  const glass = new THREE.Group();
+  const cup = new THREE.Mesh(new THREE.CylinderGeometry(.55, .42, 1.15, 32), glassO);
+  const juice = new THREE.Mesh(new THREE.CylinderGeometry(.5, .38, .85, 32),
+    new THREE.MeshStandardMaterial({color:0xff8a3c, roughness:.4}));
+  juice.position.y = -.1;
+  const strawM = new THREE.Mesh(new THREE.CylinderGeometry(.035, .035, 1.1, 12), straw);
+  strawM.position.set(.18, .75, 0); strawM.rotation.z = -.28;
+  glass.add(cup, juice, strawM);
+  glass.position.set(1.4, -1.45, 1.1);
+  glass.scale.setScalar(.9);
+  group.add(glass);
+
+  /* ---- blueberry-ish fruit + leaf ---- */
+  const fruit = new THREE.Group();
+  const ball = new THREE.Mesh(new THREE.SphereGeometry(.5, 24, 24), glassB);
+  ball.scale.y = .92;
+  const stem = new THREE.Mesh(new THREE.CylinderGeometry(.03, .03, .3, 8), leaf);
+  stem.position.y = .55;
+  const lf = new THREE.Mesh(new THREE.SphereGeometry(.22, 12, 12), leaf);
+  lf.scale.set(1.6, .25, .8); lf.position.set(.3, .62, 0);
+  fruit.add(ball, stem, lf);
+  fruit.position.set(-1.1, -1.6, 1.3);
+  group.add(fruit);
+
+  /* ---- cherry ---- */
+  const ch = new THREE.Mesh(new THREE.SphereGeometry(.42, 24, 24), cherry);
+  ch.position.set(-3.6, -1.35, 1.2);
+  group.add(ch);
+
+  /* ---- neon rings ---- */
+  const ringMat = new THREE.MeshBasicMaterial({color:0x22c55e, transparent:true, opacity:.32, side:THREE.DoubleSide});
+  const ring1 = new THREE.Mesh(new THREE.TorusGeometry(3.4, .03, 12, 120), ringMat);
+  ring1.position.z = -1.4; group.add(ring1);
+  const ring2 = new THREE.Mesh(new THREE.TorusGeometry(4.1, .018, 12, 120),
+    new THREE.MeshBasicMaterial({color:0xa3e635, transparent:true, opacity:.16, side:THREE.DoubleSide}));
+  ring2.position.z = -1.8; group.add(ring2);
+
+  /* ---- particles ---- */
+  const N = 380, pgeo = new THREE.BufferGeometry();
+  const parr = new Float32Array(N*3), psp = new Float32Array(N);
+  for(let i=0;i<N;i++){
+    parr[i*3]=(Math.random()-.5)*20; parr[i*3+1]=(Math.random()-.5)*12; parr[i*3+2]=(Math.random()-.5)*10-2;
+    psp[i]=.3+Math.random()*.9;
+  }
+  pgeo.setAttribute('position', new THREE.BufferAttribute(parr,3));
+  const dots = new THREE.Points(pgeo, new THREE.PointsMaterial({color:0xbaf7c9, size:.05, transparent:true, opacity:.75}));
+  scene.add(dots);
+
+  /* ---- lights ---- */
+  scene.add(new THREE.AmbientLight(0xffffff, .38));
+  const key = new THREE.DirectionalLight(0xffffff, .9); key.position.set(4,7,6); scene.add(key);
+  const g1 = new THREE.PointLight(0x22c55e, 1.1, 30); g1.position.set(-6,2,5); scene.add(g1);
+  const g2 = new THREE.PointLight(0xff8a3c, 1.5, 30); g2.position.set(6,-2,4); scene.add(g2);
+  const g3 = new THREE.PointLight(0x60a5fa, 1.2, 30); g3.position.set(0,4,-6); scene.add(g3);
+
+  /* ---- interaction ---- */
+  const ptr = {x:0,y:0,tx:0,ty:0};
+  addEventListener('pointermove', e=>{
+    ptr.tx = (e.clientX/innerWidth)*2-1;
+    ptr.ty = -(e.clientY/innerHeight)*2+1;
+  });
+  let dragging=false, lastX=0, vel=0;
+  const el = renderer.domElement;
+  el.addEventListener('mousedown', e=>{dragging=true;lastX=e.clientX;});
+  addEventListener('mousemove', e=>{ if(dragging) vel=(e.clientX-lastX)*.004; });
+  addEventListener('mouseup', ()=>dragging=false);
+  el.addEventListener('touchstart', e=>{dragging=true;lastX=e.touches[0].clientX;},{passive:true});
+  el.addEventListener('touchmove', e=>{ if(dragging) vel=(e.touches[0].clientX-lastX)*.004; },{passive:true});
+  el.addEventListener('touchend', ()=>dragging=false);
+
+  addEventListener('resize', ()=>{
+    camera.aspect = innerWidth/innerHeight; camera.updateProjectionMatrix();
+    renderer.setSize(innerWidth, innerHeight);
+  });
+  let live = true;
+  document.addEventListener('visibilitychange', ()=>{ live=!document.hidden; if(live) loop(); });
+
+  const clock = new THREE.Clock();
+  function loop(){
+    if(!live) return;
+    requestAnimationFrame(loop);
+    const t = clock.getElapsedTime();
+
+    ptr.x += (ptr.tx-ptr.x)*.05;
+    ptr.y += (ptr.ty-ptr.y)*.05;
+
+    group.rotation.y += .004 + vel; vel *= .95;
+    group.rotation.x = .1 + ptr.y*.1 + .05*Math.sin(t*.7);
+    group.position.y = .12*Math.sin(t*.8);
+
+    burger.rotation.y = Math.sin(t*.5)*.35;
+    burger.position.y = .1 + Math.sin(t*1.1)*.16;
+    flask.position.y  = .35 + Math.sin(t*.9+1.3)*.14;
+    glass.position.y  = -1.45 + Math.sin(t*.8+2.1)*.12;
+    fruit.position.y  = -1.6 + Math.sin(t*.75+3.2)*.13;
+    ch.position.y     = -1.35 + Math.sin(t*.85+4.1)*.12;
+
+    bubbles.forEach((b,i)=>{
+      b.position.y += .008 + i*.001;
+      if(b.position.y > 1.15) b.position.y = -.7;
+    });
+
+    ring1.rotation.z = t*.22; ring2.rotation.z = -t*.16;
+    ringMat.opacity = .24 + .1*Math.sin(t*2);
+
+    const pa = pgeo.attributes.position.array;
+    for(let i=0;i<N;i++){
+      pa[i*3+1] += psp[i]*.005;
+      if(pa[i*3+1] > 6) pa[i*3+1] = -6;
+    }
+    pgeo.attributes.position.needsUpdate = true;
+    dots.rotation.y = t*.015;
+
+    camera.position.x += (ptr.x*.7 - camera.position.x)*.04;
+    camera.position.y += ((.5 + ptr.y*.35) - camera.position.y)*.04;
+    camera.lookAt(0,0,0);
+
+    renderer.render(scene, camera);
+  }
+  loop();
+}
+
+/* ---------- loader ---------- */
+function initLoader(){
+  const l = $('#loader');
+  addEventListener('load', ()=> setTimeout(()=> l.classList.add('done'), 450));
+  setTimeout(()=> l.classList.add('done'), 3500); // safety
+}
+
+/* ---------- nav ---------- */
+function initNav(){
+  const nav=$('#nav'), burger=$('#burger'), menu=$('#menu');
+  const onScroll=()=>nav.classList.toggle('scrolled', scrollY>40);
+  addEventListener('scroll', onScroll, {passive:true}); onScroll();
+  burger.addEventListener('click', ()=>{
+    const open=menu.classList.toggle('open');
+    burger.classList.toggle('active', open);
+    burger.setAttribute('aria-expanded', String(open));
+  });
+  $$('.mlink, .navcta').forEach(a=>a.addEventListener('click', ()=>{
+    menu.classList.remove('open'); burger.classList.remove('active');
+  }));
+  $$('a[href^="#"]').forEach(a=>a.addEventListener('click', e=>{
+    const id=a.getAttribute('href'); if(id.length<2) return;
+    const t=$(id); if(!t) return;
+    e.preventDefault();
+    scrollTo({top: t.getBoundingClientRect().top + scrollY - 70, behavior:'smooth'});
+  }));
+  const secs=$$('section[id]'), links=$$('.mlink');
+  addEventListener('scroll', ()=>{
+    let cur='';
+    secs.forEach(s=>{ if(scrollY >= s.offsetTop-130) cur=s.id; });
+    links.forEach(l=>l.classList.toggle('active', l.getAttribute('href')==='#'+cur));
+  }, {passive:true});
+}
+
+/* ---------- reveal on scroll ---------- */
+function initReveal(){
+  const io = new IntersectionObserver(es=>es.forEach(en=>{
+    if(en.isIntersecting){ en.target.classList.add('visible'); io.unobserve(en.target); }
+  }), {threshold:.12});
+  $$('.reveal').forEach(el=>io.observe(el));
+}
+
+/* ---------- counters ---------- */
+function initCounters(){
+  const io = new IntersectionObserver(es=>es.forEach(en=>{
+    if(!en.isIntersecting) return;
+    const el=en.target, target=+el.dataset.count, t0=performance.now(), dur=1600;
+    const step=now=>{
+      const p=Math.min((now-t0)/dur,1);
+      el.textContent=Math.floor(target*(1-Math.pow(1-p,3))).toLocaleString();
+      if(p<1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step); io.unobserve(el);
+  }), {threshold:.5});
+  $$('[data-count]').forEach(n=>io.observe(n));
+}
+
+/* ---------- curriculum tabs ---------- */
+const CURRICULUM = {
+  y1:[
+    ['🧪','Food Chemistry I','Core · 4 cr'],
+    ['🦠','Basic Microbiology','Core · 4 cr'],
+    ['📐','Engineering Mechanics','Core · 3 cr'],
+    ['🌾','Intro to Food Industry','Core · 2 cr'],
+    ['💧','Food Physics','Core · 3 cr'],
+    ['📊','Maths for Engineers','Core · 4 cr'],
+  ],
+  y2:[
+    ['⚗️','Food Chemistry II','Core · 4 cr'],
+    ['🧫','Food Microbiology','Core · 4 cr'],
+    ['⚙️','Unit Operations','Core · 4 cr'],
+    ['🌡️','Thermal Processing','Core · 3 cr'],
+    ['🥛','Dairy Technology','Elective · 3 cr'],
+    ['🧯','Sanitation &amp; Hygiene','Core · 2 cr'],
+  ],
+  y3:[
+    ['📦','Packaging Technology','Core · 3 cr'],
+    ['👄','Sensory Evaluation','Core · 3 cr'],
+    ['🧊','Cold Chain &amp; Freezing','Elective · 3 cr'],
+    ['🧾','Food Laws &amp; FSSAI','Core · 2 cr'],
+    ['🏭','Pilot Plant Practice','Core · 4 cr'],
+    ['🤖','AI in Food Systems','Elective · 3 cr'],
+  ],
+  y4:[
+    ['🚀','Product Development','Core · 6 cr'],
+    ['🛡️','HACCP &amp; ISO 22000','Core · 3 cr'],
+    ['📚','Research Project','Core · 8 cr'],
+    ['🏢','Industry Internship','Core · 6 cr'],
+    ['🌍','Sustainable Processing','Elective · 3 cr'],
+    ['💼','Career &amp; Audit Prep','Core · 2 cr'],
+  ]
+};
+function initCurriculum(){
+  const tabs=$$('#curTabs .curtab'), grid=$('#curGrid');
+  if(!grid) return;
+  const render=yr=>{
+    grid.innerHTML = CURRICULUM[yr].map(([em,name,meta])=>`
+      <div class="curchip"><span class="em">${em}</span><div><b>${name}</b><small>${meta}</small></div></div>
+    `).join('');
+  };
+  tabs.forEach(t=>t.addEventListener('click', ()=>{
+    tabs.forEach(x=>x.classList.remove('active'));
+    t.classList.add('active'); render(t.dataset.yr);
+  }));
+  render('y1');
+}
+
+/* ---------- testimonial slider ---------- */
+function initSlider(){
+  const track=$('#tTrack'); if(!track) return;
+  const slides=$$('.tslide', track), dotsWrap=$('#tDots');
+  let idx=0, timer;
+  slides.forEach((_,i)=>{
+    const d=document.createElement('span'); d.className='tdot';
+    d.addEventListener('click', ()=>go(i)); dotsWrap.appendChild(d);
+  });
+  const dots=$$('.tdot', dotsWrap);
+  function go(i){
+    idx=(i+slides.length)%slides.length;
+    track.style.transform=`translateX(-${idx*100}%)`;
+    dots.forEach((d,j)=>d.classList.toggle('active', j===idx));
+  }
+  const auto=()=>timer=setInterval(()=>go(idx+1), 5000);
+  const reset=()=>{clearInterval(timer); auto();};
+  $('#tPrev').addEventListener('click', ()=>{go(idx-1); reset();});
+  $('#tNext').addEventListener('click', ()=>{go(idx+1); reset();});
+  $('#tSlider').addEventListener('mouseenter', ()=>clearInterval(timer));
+  $('#tSlider').addEventListener('mouseleave', reset);
+  go(0); auto();
+}
+
+/* ---------- forms ---------- */
+function initForms(){
+  const f=$('#cForm'), st=$('#fStatus');
+  f.addEventListener('submit', e=>{
+    e.preventDefault();
+    const n=f.name.value.trim(), em=f.email.value.trim(), m=f.message.value.trim();
+    if(!n || !em.includes('@') || !m){
+      st.textContent='⚠ Please fill name, a valid email and a message.';
+      st.className='fstatus error'; return;
+    }
+    st.textContent=`⚡ Thanks ${n}! The admissions office will reply within one working day.`;
+    st.className='fstatus success'; f.reset();
+  });
+  const nf=$('#nForm'), ns=$('#nStatus');
+  nf.addEventListener('submit', e=>{
+    e.preventDefault();
+    const em=nf.querySelector('input').value.trim();
+    if(!em.includes('@')){ ns.textContent='⚠ Enter a valid email'; ns.className='fstatus error'; return; }
+    ns.textContent='✓ Subscribed! See you in the next digest.'; ns.className='fstatus success'; nf.reset();
+  });
+}
+
+/* ---------- to top ---------- */
+function initToTop(){
+  const b=$('#toTop');
+  addEventListener('scroll', ()=>b.classList.toggle('show', scrollY>600), {passive:true});
+  b.addEventListener('click', ()=>scrollTo({top:0, behavior:'smooth'}));
+}
+
+/* ---------- boot ---------- */
+document.addEventListener('DOMContentLoaded', ()=>{
+  try{ initHero3D(); }catch(err){ console.error('3D failed:', err); }
+  initLoader(); initNav(); initReveal(); initCounters();
+  initCurriculum(); initSlider(); initForms(); initToTop();
+});
+</script>
+</body>
+</html>
